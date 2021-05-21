@@ -31,6 +31,7 @@ data:
           grep ClusterId) || true
     done
     echo $_CLUSTER_ID | grep -q -v null
+    
 ---
 # Deleting a daemonset may need some trick. See
 # https://github.com/kubernetes/kubernetes/issues/33245#issuecomment-261250489
@@ -82,7 +83,11 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: datanode
-          image: uhopper/hadoop-datanode:2.7.2
+          {{- if .Values.global.kerberosEnabled }}
+          image: xshan1/hadoop-datanode:2.10.1-sec
+          {{- else }}
+          image: xshan1/hadoop-datanode:2.10.1
+          {{- end }}
           env:
             - name: HADOOP_CUSTOM_CONF_DIR
               value: /etc/hadoop-custom-conf

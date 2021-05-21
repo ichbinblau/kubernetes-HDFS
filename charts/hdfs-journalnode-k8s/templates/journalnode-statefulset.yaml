@@ -91,12 +91,16 @@ spec:
       {{- end }}
       containers:
         - name: hdfs-journalnode
-          image: uhopper/hadoop-namenode:2.7.2
+          {{- if .Values.global.kerberosEnabled }}
+          image: xshan1/hadoop-namenode:2.10.1-sec
+          {{- else }}
+          image: xshan1/hadoop-namenode:2.10.1
+          {{- end }}
           env:
             - name: HADOOP_CUSTOM_CONF_DIR
               value: /etc/hadoop-custom-conf
           command: ["/entrypoint.sh"]
-          args: ["/opt/hadoop-2.7.2/bin/hdfs", "--config", "/etc/hadoop", "journalnode"]
+          args: ["/opt/hadoop-2.10.1/bin/hdfs", "--config", "/etc/hadoop", "journalnode"]
           ports:
           - containerPort: 8485
             name: jn
