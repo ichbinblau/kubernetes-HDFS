@@ -13,6 +13,10 @@ zookeeper:
   ## The number of zookeeper server to have in the quorum.
   replicaCount: 3
 
+  ## storage class
+  persistence:
+    storageClass: "local-storage"
+
 ## ------------------------------------------------------------------------------
 ## hdfs-config-k8s:
 ## ------------------------------------------------------------------------------
@@ -39,7 +43,7 @@ hdfs-journalnode-k8s:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
+    storageClass: "local-storage"
     ## To choose a suitable persistent volume from available static volumes, selectors
     ## are used.
     # selector:
@@ -78,7 +82,7 @@ hdfs-namenode-k8s:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
+    storageClass: "local-storage"
 
     ## To choose a suitable persistent volume from available static volumes, selectors
     ## are used.
@@ -136,7 +140,7 @@ hdfs-krb5-k8s:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    # storageClass: "-"
+    storageClass: "local-storage"
 
     ## To choose a suitable persistent volume from available static volumes, selectors
     ## are used.
@@ -146,7 +150,7 @@ hdfs-krb5-k8s:
 
     accessMode: ReadWriteOnce
 
-    size: 20Gi
+    size: 2Gi
 
   ## We use a 3rd party image built from https://github.com/gcavalcante8808/docker-krb5-server.
   ## TODO: The pod currently prints out the admin account in plain text.
@@ -206,7 +210,7 @@ global:
   defaultAffinityEnabled: true
 
   ## Whether or not Kerberos support is enabled.
-  kerberosEnabled: false
+  kerberosEnabled: true
 
   ## Effective only if Kerberos is enabled. Override th name of the k8s
   ## ConfigMap containing the kerberos config file.
@@ -242,7 +246,7 @@ tags:
   ha: true
 
   ## Trigger all subcharts required for using Kerberos. Disabled by default.
-  kerberos: false
+  kerberos: true
 
   ## Trigger all subcharts required for non-HA setup. Disabled by default.
   simple: false

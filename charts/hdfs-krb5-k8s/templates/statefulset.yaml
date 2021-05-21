@@ -58,6 +58,10 @@ spec:
               value: {{ .Values.global.kerberosRealm }}
             - name: KRB5_KDC
               value: {{ template "krb5-svc-0" . }}
+            - name: KRB5_TKT_LIFETIME
+              value: {{ .Values.global.kerberosTicketLifetime }}
+            - name: KRB5_RENEW_LIFETIME
+              value: {{ .Values.global.kerberosRenewLifetime }}
           ports:
             - name: kdc-tcp
               containerPort: 88
